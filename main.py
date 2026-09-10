@@ -1012,9 +1012,15 @@ def build_verification_status(selected_type, detected_type, db_validation, foren
     """
     reasons = []
 
-    if detected_type and detected_type != "Unable to determine":
-        if selected_type and selected_type.lower() != detected_type.lower():
-            reasons.append("Document type mismatch")
+   if (
+    detected_type
+    and detected_type not in {"Unable to determine", "Unknown"}
+):
+    if (
+        selected_type
+        and selected_type.lower() != detected_type.lower()
+    ):
+        reasons.append("Document type mismatch")
 
     if isinstance(db_validation, dict):
         db_status = str(db_validation.get("status", "")).upper()
